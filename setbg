@@ -1,0 +1,5 @@
+#!/bin/sh
+
+xwallpaper --zoom "$1" || exit 1
+cp "$1" "$HOME/.local/share/wallpaper.img"
+[ -z $2 ] && notify-send -i "/home/user/.local/share/wallpaper.img" " Wallpaper set"

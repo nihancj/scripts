@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# copy the below lines to /etc/runit/sv/agetty-tty1/conf
+if [ -x /sbin/agetty -o -x /bin/agetty ]; then
+	# util-linux specific settings
+	if [ "${tty}" = "tty1" ]; then
+        if ! [ -f /run/tmpfiles.d/logged_in_once ]; then
+            touch /run/tmpfiles.d/logged_in_once
+            GETTY_ARGS="--autologin user --noclear"
+        else
+            GETTY_ARGS="--noclear"
+        fi
+    fi
+fi
+
+BAUD_RATE=38400
+TERM_NAME=linux
