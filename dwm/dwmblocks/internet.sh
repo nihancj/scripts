@@ -4,7 +4,7 @@
 # Show wifi 📶 and percent strength or 📡 if none.
 
 case $BLOCK_BUTTON in
-    1) "$HOME/scripts/dwm/statusbar/internet-notify.sh";;
+    1) "$HOME/scripts/dwm/dwmblocks/internet-notify.sh";;
 	3) "$TERMINAL" -e nmtui; pkill -RTMIN+3 dwmblocks ;;
     2) "$TERMINAL";;
 esac

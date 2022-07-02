@@ -9,7 +9,8 @@ case $tag in
         4)  $TERMINAL &;;
         8)  $TERMINAL $FILEMANAGER &;;
         16) codium &;;
-        32) $TERMINAL $(cat "$HOME/dmscripts/dmenu-run.d/youtube.cli") > /dev/null &;;
+        32) $TERMINAL "$(cat "$HOME/dmscripts/dmenu-run.d/youtube.cli")" > /dev/null &;;
+        128)/bin/sh < "$HOME/dmscripts/dmenu-run.d/WhatsApp.run" &;;
         256)$BROWSER &;;
 
         10)  exit;;
