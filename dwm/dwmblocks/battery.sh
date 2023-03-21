@@ -20,7 +20,7 @@ $full_text = "$percent%";
 
 if ($status eq 'Discharging') {
         if ($percent < 20) {
-              system("sh", "/home/user/.local/bin/bat_low_notify.sh", "$full_text");
+              system("sh", "/home/user/.local/bin/bat-low-notify", "$full_text");
         }
 	$full_text .= ' ';
 } else {

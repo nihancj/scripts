@@ -22,6 +22,7 @@ print_message () {
     # Print a randomly selected insult
     message=${messages[${RANDOM} % ${#messages[@]}]}
     printf "\\n  %s\\n\\n" "$(tput bold)$(tput setaf 1)${message}$(tput sgr0)" >&2
+    # printf "\\n  %s\\n\\n" "$(tput bold)$(tput setaf 1)${message}$(tput sgr0)" | while read OUTPUT; do notify-send "$OUTPUT"; done
 }
 
 function_exists () {
