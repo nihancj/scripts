@@ -1,7 +1,7 @@
 #!/bin/zsh
 
-title="Login"
-text="Pick a Window Manager.\nDefault: $DEFAULT_WM_NAME"
+title="Session Manager"
+text="Pick a Session.\nDefault: $DEFAULT_SESSION_NAME"
 
 # Create an array with KEY/VALUE pairs.
 # The first ["KEY"] gives the display name.
@@ -10,17 +10,17 @@ declare -A radiobox
 radiobox[DWM]="dwm"
 radiobox[Qtile]="qtile"
 radiobox[Openbox]="openbox"
+radiobox[Hyprland]="Hyprland"
 
 
-choices=()
 # For bash, change (@k) to !
+choices=()
+[[ -z ${(@k)radiobox[$DEFAULT_SESSION_NAME]} ]] || \
+choices+=("$DEFAULT_SESSION_NAME" "               (default)")
 for key in "${(@k)radiobox[@]}"
 do
-	if [ $key = $DEFAULT_WM_NAME ]; then
-		choices+=("${key}" "               (default)")
-	else
-		choices+=("${key}" "                        ")
-	fi
+	[ "$key" = "$DEFAULT_SESSION_NAME" ] && continue
+	choices+=("${key}" "                        ")
 done
 
 # Creates the whiptail checklist
