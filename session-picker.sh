@@ -9,27 +9,19 @@ text="Pick a Session.\nDefault: $DEFAULT_SESSION_NAME"
 declare -A radiobox
 radiobox[DWM]="dwm"
 radiobox[Qtile]="qtile"
+radiobox[IceWM]="icewm"
 radiobox[Openbox]="openbox"
 radiobox[Hyprland]="Hyprland"
 
 
 # For bash, change (@k) to !
 choices=()
-[[ -z ${(@k)radiobox[$DEFAULT_SESSION_NAME]} ]] || \
-choices+=("$DEFAULT_SESSION_NAME" "               (default)")
 for key in "${(@k)radiobox[@]}"
 do
-	[ "$key" = "$DEFAULT_SESSION_NAME" ] && continue
-	choices+=("${key}" "                        ")
+	choices+=("${key}")
 done
-
-# Creates the whiptail checklist
-result=$(
-	whiptail --nocancel --title $title \
-	--menu "$text" 22 78 12 \
-	"${choices[@]}" \
-	3>&2 2>&1 1>&3
-)
+choice=$(printf '%s\n' "$choices[@]" |\
+   	fzf -i --no-mouse --prompt='Choose a session: ')
 
 # Output
-printf "${radiobox[$result]}"
+printf "${radiobox[$choice]}"
