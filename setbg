@@ -1,5 +1,10 @@
 #!/bin/sh
 
-xwallpaper --zoom "$1" || exit 1
-cp "$1" "$HOME/.local/share/wallpaper.img"
-[ -z $2 ] && notify-send -i "/home/user/.local/share/wallpaper.img" " Wallpaper set"
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+	old_instance=$(pidof wbg)
+	(wbg "$1" &>/dev/null && kill "$old_instance") &
+else
+	xwallpaper --zoom "$1" || exit 1
+fi
+[ ! -L "$1" ] && (ln -sf "$1" "$HOME/.local/share/wallpaper" || exit)
+[ -z $2 ] && dunstctl close-all && notify-send -i "/home/user/.local/share/wallpaper" " Wallpaper set"

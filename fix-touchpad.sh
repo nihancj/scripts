@@ -1,4 +1,2 @@
 #! /bin/sh
-
-xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1
-xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Natural Scrolling Enabled" 1
+xinput set-prop "DELL0A2B:00 06CB:CDD6 Touchpad" "Synaptics Scrolling Distance" -35, -35

@@ -13,7 +13,7 @@ esac
 if grep -xq 'up' /sys/class/net/w*/operstate 2>/dev/null ; then
     wifiicon=
 elif grep -xq 'down' /sys/class/net/w*/operstate 2>/dev/null ; then
-    grep -xq '0x1003' /sys/class/net/w*/flags && wifiicon= || wifiicon=❌
+    grep -xq '0x1003' /sys/class/net/w*/flags && wifiicon= || wifiicon=
 fi
 
 

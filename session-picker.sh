@@ -1,8 +1,5 @@
 #!/bin/zsh
 
-title="Session Manager"
-text="Pick a Session.\nDefault: $DEFAULT_SESSION_NAME"
-
 # Create an array with KEY/VALUE pairs.
 # The first ["KEY"] gives the display name.
 # The second ="VALUE" gives the output value.
@@ -11,17 +8,30 @@ radiobox[DWM]="dwm"
 radiobox[Qtile]="qtile"
 radiobox[IceWM]="icewm"
 radiobox[Openbox]="openbox"
-radiobox[Hyprland]="Hyprland"
+radiobox[Hyprland]="/home/user/.config/hypr/initrc"
+radiobox[River]="/home/user/.config/river/launch_script"
+radiobox[Sway]="/bin/sway"
+radiobox[quit]="quit"
 
 
-# For bash, change (@k) to !
-choices=()
-for key in "${(@k)radiobox[@]}"
-do
-	choices+=("${key}")
-done
-choice=$(printf '%s\n' "$choices[@]" |\
-   	fzf -i --no-mouse --prompt='Choose a session: ')
+if [ -z "$1" ]; then
+	# For bash, change (@k) to !
+	choices=()
+	for key in "${(@k)radiobox[@]}"
+	do
+		choices+=("${key}")
+	done
+	choice=$(printf '%s\n' "$choices[@]" |\
+		fzf -i --no-mouse --prompt='Choose a session: ')
+else
+	choice="$1"
+fi
 
-# Output
-printf "${radiobox[$choice]}"
+# Execute
+session="${radiobox[$choice]}"
+if [ -f "$XINITRC.$session" ]; then
+	echo sx "$XINITRC.$session"
+	# echo dbus-run-session sx "$XINITRC.$session"
+elif [ -f "$session" ]; then
+	echo $session
+fi

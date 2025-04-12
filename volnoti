@@ -1,0 +1,27 @@
+#! /bin/sh
+
+# Get volume level and select an appropriate icon
+volume="$(pactl -- get-sink-volume 0 | grep -o "[0-9]*%")"
+volume=${volume%%\%*}
+if pactl -- get-sink-mute 0 | grep -q 'yes' 2>/dev/null ; then
+	icon="/home/user/.config/dunst/icons/volume-mute.svg"
+elif [ $volume -ge 100 ] ; then
+	icon="/home/user/.config/dunst/icons/volume-up.svg"
+elif [ $volume -ge 50 ] ; then
+	icon="/home/user/.config/dunst/icons/volume.svg"
+elif [ $volume -gt 0 ] ; then
+	icon="/home/user/.config/dunst/icons/volume-down.svg"
+elif [ $volume -eq 0 ] ; then
+	icon="/home/user/.config/dunst/icons/volume-off.svg"
+fi
+
+# send notification
+dunstify -t 2000 -i "$icon" -h string:x-canonical-private-synchronous:volnoti "Volume: $volume%" -h int:value:"$volume"
+
+# Get bluetooth device
+[ "$1" != "-a" ] && exit
+pactl get-default-sink | grep -q "bluez" || exit
+dev_id=$(pactl get-default-sink | cut -d'.' -f2 | sed 's/_/:/g')
+device=$(bluetoothctl devices | grep "$dev_id" | cut -d' ' -f3-)
+dunstify -t 5000 -i "$icon" -h string:x-canonical-private-synchronous:volnoti "Volume: $volume%" -h int:value:"$volume"
+dunstify -t 5000 -h string:x-canonical-private-synchronous:bluenoti -i "/home/user/.config/dunst/icons/bluetooth-active.svg" "$device"

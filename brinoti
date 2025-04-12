@@ -1,0 +1,13 @@
+#! /bin/sh
+
+# Get volume level and select an appropriate icon
+actual_brightness="$(cat /sys/class/backlight/intel_backlight/actual_brightness)"
+bri=$(( actual_brightness * 100 / 96000 ))
+[ -n "$1" ] && bri=$1
+if [ "$bri" -gt 30 ] ; then
+	icon="/home/user/.config/dunst/icons/brightness.svg"
+else
+	icon="/home/user/.config/dunst/icons/brightness-low.svg"
+fi
+# # send notification
+dunstify -t 2000 -i "$icon" -h string:x-canonical-private-synchronous:volnoti "Brightness: $bri%" -h int:value:"$bri"

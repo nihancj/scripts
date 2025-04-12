@@ -1,35 +1,33 @@
-#!/usr/bin/perl
-my $acpi;
-my $status;
-my $percent;
-my $full_text;
+#!/bin/sh
 
-# read the first line of the "acpi" command output
-open (ACPI, "acpi -b | grep -wv unavailable |") or die;
-$acpi = <ACPI>;
-close(ACPI);
+battery="/sys/class/power_supply/BAT0"
+capacity=$(cat "$battery"/capacity) || exit
+stat=$(cat "$battery"/status)
+icon=''
 
-# fail on unexpected output
-if ($acpi !~ /: (\w+), (\d+)%/) {
-	die "$acpi\n";
-}
+if [ "$stat" = "Discharging" ]; then
+	if [ "$capacity" -eq "5" ]; then
+		bat-low-notify "$capacity" &
+		sleep 3 && doas poweroff &
+		icon=''
+	elif [ "$capacity" -lt "25" ]; then
+		bat-low-notify "$capacity" &
+		icon=''
+	elif [ "$capacity" -lt "50" ]; then
+		icon=''
+	elif [ "$capacity" -le "75" ]; then
+		icon=''
+	elif [ "$capacity" -le "100" ]; then
+		icon=''
+	fi
+elif [ "$stat" = "Charging" ]; then
+	icon=''
+	[ "$capacity" -eq "100" ] && icon=''
+	# if [ "$capacity" -gt "75" ]; then
+	# 	bat-low-notify "$capacity" &
+	# fi
+else
+	icon=''
+fi
 
-$status = $1;
-$percent = $2;
-$full_text = "$percent%";
-
-if ($status eq 'Discharging') {
-        if ($percent < 20) {
-              system("sh", "/home/user/.local/bin/bat-low-notify", "$full_text");
-        }
-	$full_text .= ' ';
-} else {
-	$full_text .= ' ';
-}
-
-# print text
-print "$full_text";
-
-exit(0);
-#$full_text .= ' ';
-#$full_text .= ' ';
+printf "%s" "$capacity% $icon"
