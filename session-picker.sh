@@ -30,8 +30,8 @@ fi
 # Execute
 session="${radiobox[$choice]}"
 if [ -f "$XINITRC.$session" ]; then
-	echo sx "$XINITRC.$session"
-	# echo dbus-run-session sx "$XINITRC.$session"
+	# echo sx "$XINITRC.$session"
+	echo dbus-run-session sx "$XINITRC.$session"
 elif [ -f "$session" ]; then
 	echo $session
 fi

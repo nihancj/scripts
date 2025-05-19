@@ -1,5 +1,6 @@
 #!/bin/sh
 
+test -e "$1" || exit
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
 	old_instance=$(pidof wbg)
 	(wbg "$1" &>/dev/null && kill "$old_instance") &

@@ -1,17 +1,15 @@
 #!/bin/sh
 
-# copy the below lines to /etc/runit/sv/agetty-tty1/conf
-if [ -x /sbin/agetty -o -x /bin/agetty ]; then
-	# util-linux specific settings
-	if [ "${tty}" = "tty1" ]; then
-        if ! [ -f /run/tmpfiles.d/logged_in_once ]; then
-            touch /run/tmpfiles.d/logged_in_once
-            GETTY_ARGS="--autologin user --noclear"
-        else
-            GETTY_ARGS="--noclear"
-        fi
-    fi
-fi
+# DO NOT REMOVE THIS FILE!
+# Note: You can copy and rename this file to the name of the tty you
+# 	want (e.g.: /etc/dinit.d/config/agetty-tty1.conf will make a
+# 	configuration specific to tty1)
 
-BAUD_RATE=38400
-TERM_NAME=linux
+GETTY_BAUD=38400
+GETTY_TERM=linux
+if [ -e /run/tmpfiles.d/logged_in_once ]; then
+	GETTY_ARGS="--noclear"
+else
+	touch /run/tmpfiles.d/logged_in_once
+	GETTY_ARGS="--autologin user --noclear"
+fi
