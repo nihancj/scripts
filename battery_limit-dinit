@@ -1,0 +1,5 @@
+type               = scripted
+command            = echo 80 | sudo tee /sys/class/power_supply/BAT0/charge_control_end_threshold;
+command           += echo 35 | sudo tee /sys/class/power_supply/BAT0/charge_control_start_threshold;
+stop-command       = echo 100 | sudo tee /sys/class/power_supply/BAT0/charge_control_end_threshold;
+stop-command      += echo 0 | sudo tee /sys/class/power_supply/BAT0/charge_control_start_threshold;
