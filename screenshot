@@ -1,0 +1,10 @@
+#!/bin/sh
+
+DIR="$HOME/Pictures/Screenshots"
+FILE=$DIR'/%y%m%d_%H%M%S_$w.png'
+
+scrot $1 $2 "$FILE" -e '
+    optipng "$f" && \
+    notify-send -t 1000 "Screenshot Copied" "Compressed and copied to clipboard: $f" -i "$f" && \
+    xclip -selection clipboard -t image/png -i "$f"
+'

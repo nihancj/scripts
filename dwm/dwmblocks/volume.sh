@@ -6,7 +6,7 @@ case $BLOCK_BUTTON in
         3) "$TERMINAL" -e pulsemixer; pkill -RTMIN+4 dwmblocks ;;
 esac
 
-volume="$(pactl -- get-sink-volume 3 | grep -o "[0-9]*%")"
+volume="$(pactl -- get-sink-volume $(pactl get-default-sink) | grep -o "[0-9]*%")"
 volume=${volume%%\%*}
 
 if pactl -- get-sink-mute 3 | grep -q 'yes' 2>/dev/null ; then

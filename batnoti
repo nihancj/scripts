@@ -1,0 +1,8 @@
+#!/bin/sh
+
+battery="/sys/class/power_supply/BAT0"
+capacity=$(cat "$battery"/capacity) || exit
+mode=$(cat /sys/firmware/acpi/platform_profile)
+acpi_out=$(acpi)
+
+dunstify -t 5000 -h string:x-canonical-private-synchronous:batnoti "Mode: $mode" "$acpi_out" -i "no-icon"

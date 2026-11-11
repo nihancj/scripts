@@ -1,5 +1,9 @@
 #!/bin/sh
 
+case $BLOCK_BUTTON in
+        1) batnoti ;;
+esac
+
 battery="/sys/class/power_supply/BAT0"
 capacity=$(cat "$battery"/capacity) || exit
 stat=$(cat "$battery"/status)
@@ -8,7 +12,7 @@ icon=''
 if [ "$stat" = "Discharging" ]; then
 	if [ "$capacity" -eq "5" ]; then
 		bat-low-notify "$capacity" &
-		sleep 3 && doas poweroff &
+		sleep 3 && loginctl hibernate &
 		icon=''
 	elif [ "$capacity" -lt "25" ]; then
 		bat-low-notify "$capacity" &

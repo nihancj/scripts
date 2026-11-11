@@ -11,4 +11,4 @@ vpn="$(nmcli con show --active | grep -i "vpn")"
 
 [ $internet ] && internet="Internet Access Available" || internet="No Internet Access"
 
-notify-send -h string:x-canonical-private-synchronous:audio "$internet" "$wifi\n$eth\n$vpn"
+notify-send -t 3000 -h string:x-canonical-private-synchronous:audio "$internet" "$wifi\n$eth\n$vpn"

@@ -1,9 +1,10 @@
 #! /bin/sh
 
 # Get volume level and select an appropriate icon
-volume="$(pactl -- get-sink-volume 3 | grep -o "[0-9]*%")"
+volume="$(pactl -- get-sink-volume $(pactl get-default-sink) | grep -o "[0-9]*%")"
 volume=${volume%%\%*}
 if pactl -- get-sink-mute 3 | grep -q 'yes' 2>/dev/null ; then
+	mute_status="[muted]"
 	icon="/home/user/.config/dunst/icons/volume-mute.svg"
 elif [ $volume -ge 100 ] ; then
 	icon="/home/user/.config/dunst/icons/volume-up.svg"
@@ -16,7 +17,7 @@ elif [ $volume -eq 0 ] ; then
 fi
 
 # send notification
-dunstify -t 2000 -i "$icon" -h string:x-canonical-private-synchronous:volnoti "Volume: $volume%" -h int:value:"$volume"
+dunstify -t 2000 -i "$icon" -h string:x-canonical-private-synchronous:volnoti "Volume: $volume%    $mute_status" -h int:value:"$volume"
 
 # Get bluetooth device
 [ "$1" != "-a" ] && exit
