@@ -1,5 +1,8 @@
 #!/bin/sh
 
+[ "$1" = "--scantext" ] && exec scantext
+echo $1
+
 DIR="$HOME/Pictures/Screenshots"
 FILE=$DIR'/%y%m%d_%H%M%S_$w.png'
 

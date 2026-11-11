@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# DIR=/tmp/scantext
+# mkdir -p $DIR
+#
+# TMPFILE=$(mktemp -u --tmpdir=$DIR --suffix=.png)
+scrot -s /tmp/scantext.png -e '
+    optipng "$f" && \
+    tesseract "$f" stdout | xclip -selection clipboard && \
+    notify-send -t 1000 "Text Copied to clipboard" \
+'

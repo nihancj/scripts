@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+XINITRC=/home/user/.config/X11/xinitrc
 # Create an array with KEY/VALUE pairs.
 # The first ["KEY"] gives the display name.
 # The second ="VALUE" gives the output value.
@@ -31,7 +32,7 @@ fi
 session="${radiobox[$choice]}"
 if [ -f "$XINITRC.$session" ]; then
 	# echo sx "$XINITRC.$session"
-	echo dbus-run-session sx "$XINITRC.$session"
+	echo dbus-run-session startx "$XINITRC.$session"
 elif [ -f "$session" ]; then
 	echo $session
 fi
